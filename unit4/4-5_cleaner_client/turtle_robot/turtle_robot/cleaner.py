@@ -44,9 +44,7 @@ class Cleaner(Node):
         if not request.data:
             self.pub.publish(Twist())
         response.success = True
-        response.message = (
-            'cleaning started' if request.data else 'cleaning stopped'
-        )
+        response.message = f'running={self.running}'
         return response
 
     def change(self, state):

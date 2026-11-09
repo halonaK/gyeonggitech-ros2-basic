@@ -18,13 +18,14 @@ class CleanerClient(Node):
         self.client = self.create_client(
             SetBool, f'/{turtle}/cleaner/enable'
         )
-        self.client.wait_for_service()
+        while not self.client.wait_for_service(1.0):
+            self.get_logger().info('waiting ...')
 
-    def send(self, start):
+    def send(self, value):
         """시작(True) 또는 중지(False)를 요청하고 응답을 반환합니다."""
-        # 실습 3: 요청에 start 값을 담아 보내고 응답을 기다립니다.
+        # 실습 3: 요청에 value 값을 담아 보내고 응답을 기다립니다.
         req = SetBool.Request()
-        req.data = start
+        req.data = value
         future = self.client.call_async(req)
         rclpy.spin_until_future_complete(self, future)
         return future.result()

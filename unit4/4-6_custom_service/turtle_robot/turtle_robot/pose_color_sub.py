@@ -13,11 +13,9 @@ class PoseColorSub(Node):
         self.color = None
         # 실습 1: /turtle1/pose와 /turtle1/color_sensor를 각각 구독합니다.
         self.pose_sub = self.create_subscription(
-            Pose, '/turtle1/pose', self.on_pose, 10
-        )
+            Pose, '/turtle1/pose', self.on_pose, 10)
         self.color_sub = self.create_subscription(
-            Color, '/turtle1/color_sensor', self.on_color, 10
-        )
+            Color, '/turtle1/color_sensor', self.on_color, 10)
 
     def on_color(self, msg):
         """최신 색을 저장합니다."""
@@ -27,10 +25,8 @@ class PoseColorSub(Node):
         """색을 받은 뒤부터 위치와 색을 한 줄로 출력합니다."""
         if self.color is None:
             return
-        self.get_logger().info(
-            f'x={msg.x:.2f}, y={msg.y:.2f}, '
-            f'rgb=({self.color.r}, {self.color.g}, {self.color.b})'
-        )
+        c = self.color
+        self.get_logger().info(f'x={msg.x:.2f} rgb=({c.r}, {c.g}, {c.b})')
 
 
 def main(args=None):

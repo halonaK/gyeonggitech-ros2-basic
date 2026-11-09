@@ -18,7 +18,8 @@ class CleanerClient(Node):
         self.client = self.create_client(
             Clean, f'/{turtle}/cleaner/enable'
         )
-        self.client.wait_for_service()
+        while not self.client.wait_for_service(1.0):
+            self.get_logger().info('waiting ...')
 
     def send(self, start, scale):
         """시작 여부와 속도 배율을 요청하고 응답을 반환합니다."""
